@@ -1,7 +1,7 @@
 "use strict";
 
 import * as menu from "./bkmks_panel_menu_common.js";
-
+import * as glb from "./bkmks_panel_common.js";
 var menu_bkmks = document.querySelector("#bkmks_context_menu");
 var bkmks_menu_state = 0;
 
@@ -62,6 +62,7 @@ export function toggleBkmksMenuOff() {
   if (bkmks_menu_state !== 0) {
     bkmks_menu_state = 0;
     menu_bkmks.classList.remove("bkmks_context_menu--active");
+    glb.clearMultiSelect();
   }
 }
 init();

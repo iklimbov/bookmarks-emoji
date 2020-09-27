@@ -1,6 +1,7 @@
 var path = require("path");
 const BrowserExtensionPlugin = require("extension-build-webpack-plugin");
 var JavaScriptObfuscator = require("webpack-obfuscator");
+const MinifyHtmlWebpackPlugin = require("minify-html-webpack-plugin");
 //npm run build
 module.exports = {
   mode: "production",
@@ -19,6 +20,17 @@ module.exports = {
   devtool: "cheap-module-source",
   module: {},
   plugins: [
+    new MinifyHtmlWebpackPlugin({
+      src: "./html",
+      dest: "./src",
+      rules: {
+        collapseBooleanAttributes: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true,
+        minifyJS: true,
+      },
+    }),
     new BrowserExtensionPlugin({
       devMode: true,
       name: "bkmks.zip",

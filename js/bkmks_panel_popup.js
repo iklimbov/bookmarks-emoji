@@ -1,8 +1,7 @@
-import * as glb from "./bkmks_panel_common.js";
 import * as menu from "./bkmks_panel_menu_common.js";
 import * as menuB from "./bkmks_panel_menu.js";
 import * as menuF from "./bkmks_panel_menu_f.js";
-
+import * as glb from "./bkmks_panel_common.js";
 export var currentFolderId,
   openedFolderIds = [],
   singleFolderNav = false,
@@ -58,13 +57,13 @@ export function setOptions(
 // DELTE KEY
 //-------------------------------------------------
 $("html").keyup(function(e) {
-  if (e.keyCode == 46) {
+  if (e.keyCode == 46 || e.keyCode == 8) {
     deleteCurrentSelection();
   }
 });
 
 $("#bkmks_bookmarks").click(function(e) {
-  clearMultiSelect();
+  glb.clearMultiSelect();
   menu.setMultiSelectParent("");
   selectorAnc = "";
 });
@@ -362,7 +361,7 @@ function setupIcon(i) {
     event.preventDefault();
     if (event.ctrlKey) {
       if (menu.multiSelectParent != this.getAttribute("parentId")) {
-        clearMultiSelect();
+        glb.clearMultiSelect();
         menu.setMultiSelectParent(this.getAttribute("parentId"));
       }
       selectorAnc = this.getAttribute(idName);
@@ -377,7 +376,7 @@ function setupIcon(i) {
       }
     } else if (event.shiftKey) {
       if (menu.multiSelectParent != this.getAttribute("parentId")) {
-        clearMultiSelect();
+        glb.clearMultiSelect();
         menu.setMultiSelectParent(this.getAttribute("parentId"));
         selectorAnc = this.getAttribute(idName);
         i.addClass("bkmks_multi");
@@ -389,7 +388,7 @@ function setupIcon(i) {
           selectorAnc = "";
           return;
         }
-        clearMultiSelect();
+        glb.clearMultiSelect();
         var me = $("#" + i[0][idName]);
         me.addClass("bkmks_multi");
         var him = $("#" + selectorAnc);
@@ -408,13 +407,6 @@ function setupIcon(i) {
       chrome.tabs.update({ url: url });
       window.close();
     }
-  });
-}
-
-export function clearMultiSelect() {
-  var elems = document.querySelectorAll(".bkmks_multi");
-  [].forEach.call(elems, function(el) {
-    el.classList.remove("bkmks_multi");
   });
 }
 
@@ -607,8 +599,8 @@ function menuFolderListener(link, e) {
         if (m) {
           removeFromOpenedFolders(node.id);
           chrome.bookmarks.getTree(function(bkmksTree) {
-            updateTree(bkmksTree, true);
             glb.displayInfoBox(m, glb.BKMKS_INFO);
+            updateTree(bkmksTree, true);
           });
         }
       });
@@ -998,6 +990,12 @@ var main = document.getElementById("bkmks_panel_main_body");
 if (!main) {
   main = document.getElementById("bkmks_main_body");
 }
+main.onclick = function(e) {
+  glb.clearMultiSelect();
+  menu.setMultiSelectParent("");
+  selectorAnc = "";
+};
+
 main.ondrop = function(ev) {
   if (singleFolderNav && currentFolderId) {
     var distino = currentFolderId;
@@ -1293,7 +1291,6 @@ dialog_ar.find("form").on("submit", function(event) {
   document.getElementById("bkmks_loader").hidden = false;
   event.preventDefault();
   event.stopPropagation();
-
   var id = "";
   chrome.bookmarks.search(
     {
@@ -1305,7 +1302,7 @@ dialog_ar.find("form").on("submit", function(event) {
           id = res[0].id;
         }
       }
-      if (id == 0) {
+      if (!id) {
         chrome.bookmarks.create(
           {
             parentId: "2",
@@ -1314,17 +1311,8 @@ dialog_ar.find("form").on("submit", function(event) {
           },
           function(e) {
             id = e.id;
-            chrome.bookmarks.getTree(function(bkmksTree) {
-              allPrFolders = populateCurrentParentsTree(bkmksTree);
-              var f_id = getFolderURL(id);
-              myEms[f_id] = "🅰️";
-              var p2 = new Promise((resolve, reject) => {
-                saveEmojies(f_id, "🅰️", resolve, reject);
-              });
-              p2.then((t) => {
-                createArchive(id);
-              });
-            });
+            glb.setArchiveFld(id);
+            createArchive(id);
           }
         );
       } else {
@@ -1506,7 +1494,10 @@ function createFolder(node, prefix, lenChildren) {
   }
   // START NEW FOLDER
   var d1 = $("<div class ='d1' style='display: inline'/>");
-  if (!singleFolderNav && node.id > 2) {
+  if (
+    node.id > 2 &&
+    (!singleFolderNav || (singleFolderNav && currentFolderId != node.id))
+  ) {
     //separator for dropping in
     var dsep = $(
       "<div class='bkmks_f_separator' managed_f='" +
@@ -1588,6 +1579,7 @@ function isEmoji(em) {
 }
 
 function getEmoji(em_id) {
+  if (em_id == "bkmks_arch") return glb.BKMKS_ARCHIVE_EM;
   return myEms[em_id];
 }
 
@@ -1913,7 +1905,7 @@ function processNodes(prnts, parent, d, displayFirstFolder) {
         h6.attr("managed_f", node.id);
         h6.append(newText.substring(0, 20));
         f_icon.attr("data-toggle", "tooltip");
-        f_icon.attr("title", node.id + " " + newText);
+        f_icon.attr("title", newText);
         setupTitleBar(title_bar);
         title_bar.append(h6);
         d1.append(title_bar);
@@ -2438,15 +2430,15 @@ function validateFldrDragFromEvent(objecto) {
   var x = objecto.getAttribute("managed_f");
   if (!x) return true;
   if (x == glb.wasteFld) {
-    glb.displayInfoBox("RECYCLING BIN: Move Error", glb.BKMKS_ERROR);
+    glb.displayInfoBox("RECYCLING BIN: Cannot move", glb.BKMKS_ERROR);
     return false;
   }
   if (x == glb.archiveFld) {
-    glb.displayInfoBox("ARCHIVE: Move Error", glb.BKMKS_ERROR);
+    glb.displayInfoBox("ARCHIVE: Cannot move", glb.BKMKS_ERROR);
     return false;
   }
   if (x < 3) {
-    glb.displayInfoBox("ROOT:  Move Error", glb.BKMKS_ERROR);
+    glb.displayInfoBox("ROOT FOLDER: Cannot move", glb.BKMKS_ERROR);
     return false;
   }
   return true;
@@ -2538,9 +2530,9 @@ function populateCurrentParentsTree(x, p, r) {
   if (x.constructor.name == "Array") {
     for (var i = 0; i < x.length; i++) {
       var node = x[i];
-      if (node.title == glb.BKMKS_ARCHIVE) {
+      if (node.title == glb.BKMKS_ARCHIVE && node.parentId == 2) {
         glb.setArchiveFld(node.id);
-      } else if (node.title == glb.BKMKS_WASTE) {
+      } else if (node.title == glb.BKMKS_WASTE && node.parentId == 2) {
         glb.setWasteFld(node.id);
       }
       if (node.children) {
@@ -2776,7 +2768,10 @@ function deleteCurrentSelection() {
 //--------------------------------------------------------------
 function deleteManyObjs(toD, resolve, reject) {
   if (!toD) return resolve(false);
-  if (toD.length == 0) return resolve(false);
+  if (toD.length == 0) {
+    glb.displayInfoBox("0 items deleted", glb.BKMKS_INFO);
+    return resolve(false);
+  }
   var currentParent = "";
   var exit = false;
 
@@ -2972,6 +2967,11 @@ function getShortURL(s) {
 }
 
 function getFolderURL(id) {
+  if (id == glb.wasteFld) {
+    return "bkmks_waste";
+  } else if (id == glb.archiveFld) {
+    return "bkmks_arch";
+  }
   var ret = "";
   var v = allPrFolders[id];
   if (!v) return "";

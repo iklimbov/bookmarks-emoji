@@ -1,6 +1,6 @@
 import * as popW from "./bkmks_panel_popup.js";
 import * as slider from "./bkmks_enj_slider.js";
-
+import * as glb from "./bkmks_panel_common.js";
 function time() {
   var today = new Date();
   console.log(today.getMinutes() + ":" + today.getSeconds());
@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender) {
     );
   } else if (msg == "bkmks_close_panel") {
     popW.clearFilter();
-    popW.clearMultiSelect();
+    glb.clearMultiSelect();
   }
 });
 

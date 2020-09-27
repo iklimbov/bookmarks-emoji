@@ -12,6 +12,7 @@ h4,
 h5,
 h6,
 p {
+  font-weight: normal;
   margin: 0;
   padding: 0;
   border: 0;
@@ -41,9 +42,9 @@ body {
   margin: 0;
   width: 100%;
   background-image: url(../images/water1.jpg);
-  background-position: center;
+  background-size: 94%;
   background-repeat: repeat-y;
-  background-size: cover;
+  background-position: 50% -5px;
 }
 #white_str {
   position: absolute;
@@ -79,14 +80,12 @@ body {
 }
 .main-nav a {
   color: white;
-  font-weight: 100;
   letter-spacing: 4px;
   text-transform: uppercase;
 }
 
 .main-nav a:hover {
   color: #428bca;
-  font-weight: bolder;
 }
 
 .nav {
@@ -173,10 +172,11 @@ body {
   min-height: 70%;
 }
 
-.cent_drk h1 {
+.cent_drk h1,
+.cent_drk1 h1 {
   color: inherit;
   width: fit-content;
-  font-weight: 100;
+  font-size: large;
   letter-spacing: 5px;
   text-transform: uppercase;
   border-bottom: solid 1px white;
@@ -186,33 +186,23 @@ body {
 .cent_drk1 h1 {
   margin-left: 50%;
   transform: translateX(-50%);
-  color: inherit;
-  width: fit-content;
-  font-weight: normal;
-  font-size: x-large;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  border-bottom: solid 1px white;
-  padding-bottom: 0.5em;
 }
 
 .cent_drk h2 {
   color: inherit;
   width: fit-content;
-  font-weight: 100;
   letter-spacing: 5px;
   padding-top: 0.5em;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 }
 
 .cent_drk1 h2 {
   color: inherit;
   transform: translateX(-50%);
   width: fit-content;
-  font-weight: 100;
   letter-spacing: 5px;
   padding-top: 0.5em;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   margin-left: 50%;
 }
 
@@ -220,10 +210,9 @@ body {
 .cent_drk1 h3 {
   color: inherit;
   width: fit-content;
-  font-weight: 100;
   letter-spacing: 5px;
   padding-top: 0.5em;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   border-bottom: solid 1px white;
 }
 
@@ -238,7 +227,6 @@ body {
 
 .form_title {
   font-size: 80%;
-  font-weight: 100;
   letter-spacing: 5px;
   color: lightgray;
   margin: 1em 0 0.5em 0;
@@ -272,7 +260,6 @@ input[type="submit"] {
   background-color: #607289c9;
   color: white;
   font-size: 90%;
-  font-weight: 100;
   letter-spacing: 5px;
   text-transform: uppercase;
   height: 2.5em;
@@ -304,7 +291,7 @@ input[type="submit"] {
 .card {
   min-width: 200px;
   max-width: 300px;
-  margin: 1.5em;
+  margin: 0 1.5em 1.5em;
   padding: 1em;
   text-align: center;
   border: 1px solid lightgrey;
@@ -315,7 +302,7 @@ input[type="submit"] {
 .card_wide {
   min-width: 460px;
   max-width: 560px;
-  margin: 1.5em;
+  margin: 0 1.5em 1.5em;
   padding: 1em;
   text-align: center;
   border: 1px solid lightgrey;
@@ -355,4 +342,12 @@ input[type="submit"] {
 
 .donate_button {
   width: 100%;
+}
+
+.desc_table {
+  color: white;
+}
+
+.desc_table td {
+  padding: 0 10px;
 }

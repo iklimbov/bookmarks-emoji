@@ -78,6 +78,7 @@ export function toggleBkmksFolderMenuOff() {
   if (bkmks_menu_f_state !== 0) {
     bkmks_menu_f_state = 0;
     menu_bkmks_f.classList.remove("bkmks_context_menu_f--active");
+    glb.clearMultiSelect();
   }
 }
 init();

@@ -271,6 +271,7 @@ div {
 }
 #bkmrk_all,
 #bkmrk_all_f {
+  color: red;
   padding: 2px;
   vertical-align: middle;
   text-align: center;
@@ -389,6 +390,7 @@ div.sidebar-left {
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 div.sidebar-left .draghandle {
   position: fixed;
@@ -599,7 +601,7 @@ input.empty {
   color: #fff;
   text-align: center;
   text-decoration: none;
-  font-weight: lighter;
+  font-weight: normal;
   padding-left: 1.4em;
   height: 1.5em;
   background: var(--night_highlight);
@@ -640,9 +642,8 @@ input.empty {
 }
 .bkmks_sm_img1,
 .bkmks_sm_img2 {
-  margin: auto;
   float: left;
-  margin: 3px 0 0;
+  margin: 3px 3px 0;
   height: 1em;
   width: 0.7em;
   background-position-y: bottom;
@@ -652,15 +653,9 @@ input.empty {
 
 .bkmks_sm_img1 {
   background-image: url(../images/crs_w1.png);
-  position: relative;
-  bottom: 0;
-  margin: auto;
 }
 .bkmks_sm_img2 {
   background-image: url(../images/crs_w2.png);
-  position: relative;
-  bottom: 0;
-  margin: auto;
 }
 
 .bkmsk_no {
@@ -806,6 +801,7 @@ input.empty {
   width: 100%;
   color: black;
   background-color: var(--nav_7);
+  z-index: 999999999999;
 }
 
 .bkmks_body_light #bkmks_message_alrt,
