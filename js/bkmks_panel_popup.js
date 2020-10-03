@@ -481,6 +481,7 @@ function menuItemListener(link, e) {
           buildSelect(node.parentId, "bkmk_folder");
           dialog_f.dialog("option", "title", "Edit Bookmark");
           dialog_f.dialog("open");
+          cleanUpEmojis(bkmksTree);
         });
       });
     } else if (action == "Emoji...") {
@@ -1383,6 +1384,7 @@ function toggleTreeView(ev) {
   clearFilter();
   singleFolderNav = !singleFolderNav;
   currentFolderId = singleFolderNav ? "0" : "";
+  openedFolderIds = [];
   chrome.bookmarks.getTree(function(bkmksTree) {
     updateTree(bkmksTree, true);
   });
@@ -1690,7 +1692,6 @@ export async function updateTree(bkmksTree) {
   document.getElementById("bkmks_bookmarks").innerHTML = "";
   document.getElementById("bkmks_folders_only").innerHTML = "";
   document.getElementById("bkmks_breadcrumb_bar").innerHTML = "";
-
   allPrFolders = populateCurrentParentsTree(bkmksTree);
   if (!glb.wasteFld) {
     chrome.bookmarks.create(
@@ -1704,6 +1705,8 @@ export async function updateTree(bkmksTree) {
       }
     );
   }
+  // all children is used to properly close all children if folder closes,
+  //also, to prevent folder to be moved to a child
   allChFolders = {};
   getChildrenNodes(bkmksTree[0]);
   if (
@@ -1714,7 +1717,6 @@ export async function updateTree(bkmksTree) {
     currentFolderId = singleFolderNav ? "0" : "1";
   }
 
-  // check if currentfolder even exists (deleted through manager?)
   if (!allPrFolders[currentFolderId]) {
     currentFolderId = 0;
   }
@@ -1771,22 +1773,27 @@ export async function updateTree(bkmksTree) {
       } else {
         document.getElementById("bkmks_breadcrumb_bar").hidden = true;
       }
-
       saveOptions();
-      //clean up emojies
-      var A = getAllNodeEmIDs(bkmksTree)[1];
-      var B = Object.keys(myEms);
-      var C = B.filter((n) => !A.includes(n));
-      for (var i = 0; i < C.length; i++) {
-        var toDel = C[i];
-        delete myEms[C[i]];
-        var p2 = new Promise((resolve, reject) => {
-          saveEmojies(toDel, "", resolve, reject);
-        });
-        p2.then((t) => {});
-      }
       document.getElementById("bkmks_loader").hidden = true;
     });
+  }
+}
+//--------------------------------------------------
+// remove emojis from absolite bookmars and folders
+// at the moment binding this function to open edit dialog for bkmks
+//---------------------------------------------------
+function cleanUpEmojis(bkmksTree) {
+  //clean up emojies
+  var A = getAllNodeEmIDs(bkmksTree)[1];
+  var B = Object.keys(myEms);
+  var C = B.filter((n) => !A.includes(n));
+  for (var i = 0; i < C.length; i++) {
+    var toDel = C[i];
+    delete myEms[C[i]];
+    var p2 = new Promise((resolve, reject) => {
+      saveEmojies(toDel, "", resolve, reject);
+    });
+    p2.then((t) => {});
   }
 }
 
@@ -1924,7 +1931,14 @@ function processNodes(prnts, parent, d, displayFirstFolder) {
           d.append(d1);
         } else if (filter.length == 0) {
           // NO FILTERS, ADDING FOLDERS
-          d1.append(processNodes(prnts, node.children, children_panel));
+
+          if (
+            currentFolderId == node.id ||
+            openedFolderIds.indexOf(node.id) > -1 ||
+            filter
+          ) {
+            d1.append(processNodes(prnts, node.children, children_panel));
+          }
           d.append(d1);
         } else {
           // FILTER, BUT SKIPPING THIS FOLDER
@@ -1937,11 +1951,23 @@ function processNodes(prnts, parent, d, displayFirstFolder) {
           node.parentId != currentFolderId &&
           filter.length == 0
         ) {
-          // not adding
+          // not adding, single folder and it is not it
         } else {
-          var wrapper = getBkmkWIcon(node, largeIcons, currentFolderId, prnts);
-          if (wrapper) {
-            d.append(wrapper);
+          // check if this folder is opened, only in this case add bkmks
+          if (
+            currentFolderId == node.parentId ||
+            openedFolderIds.indexOf(node.parentId) > -1 ||
+            filter
+          ) {
+            var wrapper = getBkmkWIcon(
+              node,
+              largeIcons,
+              currentFolderId,
+              prnts
+            );
+            if (wrapper) {
+              d.append(wrapper);
+            }
           }
         }
       }
@@ -2113,8 +2139,8 @@ function sortTree(x, resolve, reject) {
   if (sortByName != true && sortByVisits != true) {
     return resolve(true);
   }
-
-  var r = getAllNodes(x)[1];
+  var r = getAllVisibleNodes(x)[1];
+  // console.log("visible nodes: ", r.length);
   if (!r) return resolve(true);
   if (r.length == 0) return resolve(true);
 
@@ -2169,12 +2195,17 @@ function addSortableName(x) {
       var node = x[i];
       var newText = "";
       var newText = node.title;
-
       newText = newText.toUpperCase();
       newText = newText.trim();
       if (node.children) {
         node["xsort"] = "!!!!!!!!!!!!!!!!!!!" + newText;
-        addSortableName(node.children);
+        if (
+          currentFolderId == node.id ||
+          openedFolderIds.indexOf(node.id) > -1 ||
+          filter
+        ) {
+          addSortableName(node.children);
+        }
       } else {
         node["xsort"] = newText;
       }
@@ -2190,12 +2221,18 @@ function sortNodes(x, ordr) {
     for (var i = 0; i < x.length; i++) {
       var node = x[i];
       if (node.children) {
-        if (ordr) {
-          node.children = node.children.sort(cmp1);
-        } else {
-          node.children = node.children.sort(cmp2);
+        if (
+          currentFolderId == node.id ||
+          openedFolderIds.indexOf(node.id) > -1 ||
+          filter
+        ) {
+          if (ordr) {
+            node.children = node.children.sort(cmp1);
+          } else {
+            node.children = node.children.sort(cmp2);
+          }
+          sortNodes(node.children, ordr);
         }
-        sortNodes(node.children, ordr);
       }
     }
   }
@@ -2241,6 +2278,31 @@ function getAllNodes(x, no_recycling, all_nodes) {
 //--------------------------------------------------------------------
 // no folders, just nodes
 //---------------------------------------------------------------------
+function getAllVisibleNodes(x, all_nodes) {
+  if (!all_nodes) all_nodes = [];
+  if (x.constructor.name == "Array") {
+    for (var i = 0; i < x.length; i++) {
+      var node = x[i];
+      if (node.children) {
+        if (
+          currentFolderId == node.id ||
+          openedFolderIds.indexOf(node.id) > -1 ||
+          filter
+        ) {
+          getAllVisibleNodes(node.children, all_nodes);
+        }
+      } else {
+        var temp = Object.assign({}, node);
+        all_nodes.push(temp);
+      }
+    }
+  }
+  return [x, all_nodes];
+}
+
+//--------------------------------------------------------------------
+// no folders, just nodes
+//---------------------------------------------------------------------
 function getAllNodeEmIDs(x, all_node_ids) {
   if (!all_node_ids) all_node_ids = [];
   if (x.constructor.name == "Array") {
@@ -2264,12 +2326,13 @@ function displayCounters(bkmksTree, resolve, reject) {
   if (filter.length > 0) {
     return resolve(true);
   }
-  var x = getAllNodes(bkmksTree)[1];
+  var x = getAllVisibleNodes(bkmksTree)[1];
   let prms = new Promise((resolve, reject) => {
     getHistory(x, resolve, reject);
   });
 
   prms.then((visits) => {
+    if (x.length == 0) return resolve(true);
     for (var i = 0; i < x.length; i++) {
       var node = x[i];
       if (node.children) {
@@ -2290,50 +2353,11 @@ function displayCounters(bkmksTree, resolve, reject) {
   });
 }
 
-//---------------------------------------------
-// gets the history and adds counters to bkmks
-// --------------------------------------------
-// function displayDates(bkmksTree, resolve, reject) {
-//   if (filter.length > 0) {
-//     return resolve(true);
-//   }
-//   var x = getAllNodes(bkmksTree)[1];
-//   let prms = new Promise((resolve, reject) => {
-//     getHistory(x, resolve, reject);
-//   });
-
-//   prms.then((visits) => {
-//     for (var i = 0; i < x.length; i++) {
-//       var node = x[i];
-//       if (node.children) {
-//       } else {
-//         var d = document.getElementById("bkmks_date_" + node.id);
-//         if (d) {
-//           var temp = siteVisits[node.id];
-//           if (temp) {
-//             d.innerHTML = "";
-//             if (siteVisits[node.id]["l_date"] > 0) {
-//               var dd = siteVisits[node.id]["l_date"];
-//               dd = new Date(dd);
-//               dd = dd.toLocaleDateString("en-US");
-//               d.append("*" + dd);
-//             } else {
-//               d.append("* not visited");
-//             }
-//           }
-//         }
-//       }
-//       if (i + 1 == x.length) {
-//         return resolve(true);
-//       }
-//     }
-//   });
-// }
-
 // -----------------------------------------------
 // info about visit history for each bookmark
 //------------------------------------------------
 function getHistory(x, resolve, reject) {
+  if (x.length == 0) return resolve(true);
   siteVisits = {};
   var ctr = 0;
   x.forEach(function(node) {
@@ -3029,28 +3053,29 @@ document.addEventListener("drop", function(ev) {
 });
 
 //------------------------------------------------------
-// light or dark color schema
+// light or dark color schema - step 1
 //------------------------------------------------------
-export function setColorMode() {
+export function setColorMode(mode) {
+  if (mode) darkMode = mode;
   var v = document.getElementsByClassName("bkmks_colored_panel")[0];
   var v1 = document.getElementById("bkmks_breadcrumb_bar");
   var v2 = document.getElementById("bkmks_wd_icon");
   var v3 = document.getElementById("bkmks_controls");
-
   if (darkMode) {
     v.classList.add("bkmks_body_dark");
     v.classList.remove("bkmks_body_light");
     v1.classList.add("bkmks_breadcrumb_dark");
     v1.classList.remove("bkmks_breadcrumb_light");
-    v2.setAttribute("src", "images/col_sw1.png");
-    // v3.style.backgroundImage = "url('../images/water00.jpg')";
   } else {
     v.classList.add("bkmks_body_light");
     v.classList.remove("bkmks_body_dark");
     v1.classList.remove("bkmks_breadcrumb_dark");
     v1.classList.add("bkmks_breadcrumb_light");
+  }
+  if (darkMode) {
+    v2.setAttribute("src", "images/col_sw1.png");
+  } else {
     v2.setAttribute("src", "images/col_sw.png");
-    // v3.style.backgroundImage = "url('../images/water0.jpg')";
   }
   document.getElementById("bkmks_text_icon").src = getIcon("bkmks_text_icon");
   document.getElementById("bkmks_tree_icon").src = getIcon("bkmks_tree_icon");

@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "bookmarks+emoji",
     "description": "Custom Emojis for Chrome Bookmarks.",
-    "version": "1.28.0",
+    "version": "1.31.0",
     "default_locale": "en",
     "background": {
         "scripts": [

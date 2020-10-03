@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
       currentFolderId: "",
     },
     function(items) {
+      popW.setColorMode(items.darkMode);
       chrome.storage.sync.get(null, function(items1) {
         popW.setOptions(
           items.largeIcons,
@@ -25,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("bkmks_text_icon").focus();
         chrome.bookmarks.getTree(function(bkmksTree) {
           popW.updateTree(bkmksTree, true);
-          popW.setColorMode();
         });
       });
     }

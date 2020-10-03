@@ -18,6 +18,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender) {
         currentFolderId: "",
       },
       function(items) {
+        popW.setColorMode(items.darkMode);
         if (items.includeText) {
           document.getElementById("bkmk_resizable").classList.add("bkmks_400");
         } else {
@@ -37,7 +38,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender) {
           );
           chrome.bookmarks.getTree(function(bkmksTree) {
             popW.updateTree(bkmksTree, true);
-            popW.setColorMode();
             document.getElementById("bkmks_text_icon").focus();
           });
         });
@@ -46,6 +46,10 @@ chrome.runtime.onMessage.addListener(function(msg, sender) {
   } else if (msg == "bkmks_close_panel") {
     popW.clearFilter();
     glb.clearMultiSelect();
+    document.getElementById("bkmks_loader").hidden = false;
+    document.getElementById("bkmks_bookmarks").innerHTML = "";
+    document.getElementById("bkmks_folders_only").innerHTML = "";
+    document.getElementById("bkmks_breadcrumb_bar").innerHTML = "";
   }
 });
 
