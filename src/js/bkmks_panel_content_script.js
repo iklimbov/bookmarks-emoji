@@ -1,1 +1,158 @@
-var a3_0x3b49=['createElement','width','object','bkmks_toggle','bkmks_panel_inj.html','fixed','prototype','bkmks_close_panel','body','bind','setProperty','bkmks_iframe','bkmks_test','iframe','exports','position','toStringTag','zIndex','bkmks_open_panel','min_width','style','defineProperty','important','Module','onMessage','0px','sendMessage','hasOwnProperty','appendChild','__esModule','auto','runtime','init','left','default','top','src','bkmksMainIframe','calc(100%)','right','height','string','call','overflow'];(function(_0x72a40d,_0x3b49de){var _0x144935=function(_0x5de137){while(--_0x5de137){_0x72a40d['push'](_0x72a40d['shift']());}};_0x144935(++_0x3b49de);}(a3_0x3b49,0x82));var a3_0x1449=function(_0x72a40d,_0x3b49de){_0x72a40d=_0x72a40d-0x0;var _0x144935=a3_0x3b49[_0x72a40d];return _0x144935;};!function(_0x5de137){var _0x5c66e1={};function _0x2a5cd9(_0x22214a){if(_0x5c66e1[_0x22214a])return _0x5c66e1[_0x22214a]['exports'];var _0x30fd3b=_0x5c66e1[_0x22214a]={'i':_0x22214a,'l':!0x1,'exports':{}};return _0x5de137[_0x22214a][a3_0x1449('0x0')](_0x30fd3b['exports'],_0x30fd3b,_0x30fd3b[a3_0x1449('0x10')],_0x2a5cd9),_0x30fd3b['l']=!0x0,_0x30fd3b[a3_0x1449('0x10')];}_0x2a5cd9['m']=_0x5de137,_0x2a5cd9['c']=_0x5c66e1,_0x2a5cd9['d']=function(_0x178181,_0x35f866,_0x4ae979){_0x2a5cd9['o'](_0x178181,_0x35f866)||Object[a3_0x1449('0x17')](_0x178181,_0x35f866,{'enumerable':!0x0,'get':_0x4ae979});},_0x2a5cd9['r']=function(_0x4e401f){'undefined'!=typeof Symbol&&Symbol['toStringTag']&&Object[a3_0x1449('0x17')](_0x4e401f,Symbol[a3_0x1449('0x12')],{'value':a3_0x1449('0x19')}),Object[a3_0x1449('0x17')](_0x4e401f,a3_0x1449('0x1f'),{'value':!0x0});},_0x2a5cd9['t']=function(_0x3448f5,_0x48a5ae){if(0x1&_0x48a5ae&&(_0x3448f5=_0x2a5cd9(_0x3448f5)),0x8&_0x48a5ae)return _0x3448f5;if(0x4&_0x48a5ae&&a3_0x1449('0x4')==typeof _0x3448f5&&_0x3448f5&&_0x3448f5[a3_0x1449('0x1f')])return _0x3448f5;var _0x3904e0=Object['create'](null);if(_0x2a5cd9['r'](_0x3904e0),Object['defineProperty'](_0x3904e0,'default',{'enumerable':!0x0,'value':_0x3448f5}),0x2&_0x48a5ae&&a3_0x1449('0x2b')!=typeof _0x3448f5)for(var _0x4e881a in _0x3448f5)_0x2a5cd9['d'](_0x3904e0,_0x4e881a,function(_0x837afb){return _0x3448f5[_0x837afb];}[a3_0x1449('0xb')](null,_0x4e881a));return _0x3904e0;},_0x2a5cd9['n']=function(_0xd8cc5){var _0x441227=_0xd8cc5&&_0xd8cc5['__esModule']?function(){return _0xd8cc5[a3_0x1449('0x24')];}:function(){return _0xd8cc5;};return _0x2a5cd9['d'](_0x441227,'a',_0x441227),_0x441227;},_0x2a5cd9['o']=function(_0x192002,_0x21cf25){return Object[a3_0x1449('0x8')][a3_0x1449('0x1d')][a3_0x1449('0x0')](_0x192002,_0x21cf25);},_0x2a5cd9['p']='',_0x2a5cd9(_0x2a5cd9['s']=0x4);}({0x4:function(_0x127b5c,_0x3153aa,_0x4a7e99){'use strict';var _0x1c219f;function _0x59cd87(){(_0x1c219f=document[a3_0x1449('0x2')](a3_0x1449('0xf')))['id']=a3_0x1449('0xd'),_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0x1')]=a3_0x1449('0x20'),_0x1c219f['style'][a3_0x1449('0x2a')]='100vh',_0x1c219f[a3_0x1449('0x16')]['setProperty'](a3_0x1449('0x3'),'0px',a3_0x1449('0x18')),_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0x11')]=a3_0x1449('0x7'),_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0x25')]=a3_0x1449('0x1b'),_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0x29')]='0px',_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0x23')]='0px',_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0x13')]='9999999999',_0x1c219f[a3_0x1449('0x16')]['border']=0x0,_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0xc')](a3_0x1449('0x15'),'0',a3_0x1449('0x18')),setTimeout(function(){_0x1c219f[a3_0x1449('0x26')]=chrome[a3_0x1449('0x21')]['getURL'](a3_0x1449('0x6'));},0x64),document[a3_0x1449('0xa')][a3_0x1449('0x1e')](_0x1c219f);}function _0x544624(_0x19be55){a3_0x1449('0x1b')==_0x1c219f['style'][a3_0x1449('0x3')]?(chrome[a3_0x1449('0x21')][a3_0x1449('0x1c')](_0x19be55['id'],a3_0x1449('0x14')),_0x1c219f[a3_0x1449('0x16')][a3_0x1449('0xc')]('width',a3_0x1449('0x28'),a3_0x1449('0x18'))):(chrome[a3_0x1449('0x21')][a3_0x1449('0x1c')](_0x19be55['id'],a3_0x1449('0x9')),_0x1c219f[a3_0x1449('0x16')]['setProperty'](a3_0x1449('0x3'),a3_0x1449('0x1b'),a3_0x1449('0x18')));}_0x4a7e99['r'](_0x3153aa),_0x4a7e99['d'](_0x3153aa,a3_0x1449('0x27'),function(){return _0x1c219f;}),_0x4a7e99['d'](_0x3153aa,a3_0x1449('0x22'),function(){return _0x59cd87;}),_0x4a7e99['d'](_0x3153aa,'bkmksToggleInj',function(){return _0x544624;}),chrome[a3_0x1449('0x21')][a3_0x1449('0x1a')]['addListener'](function(_0x43c71f,_0x27ed1f,_0xc919db){a3_0x1449('0xe')==_0x43c71f&&_0xc919db(!0x0),a3_0x1449('0x5')==_0x43c71f&&_0x544624(_0x27ed1f);}),_0x59cd87();}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./js/bkmks_panel_content_script.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./js/bkmks_panel_content_script.js":
+/*!******************************************!*\
+  !*** ./js/bkmks_panel_content_script.js ***!
+  \******************************************/
+/*! exports provided: bkmksMainIframe, init, bkmksToggleInj */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bkmksMainIframe", function() { return bkmksMainIframe; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "init", function() { return init; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bkmksToggleInj", function() { return bkmksToggleInj; });
+
+var bkmksMainIframe;
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+  if (msg == "bkmks_test") {
+    sendResponse(true);
+  }
+  if (msg == "bkmks_toggle") {
+    bkmksToggleInj(sender);
+  }
+  if (msg == "bkmks_close_all") {
+    if (bkmksMainIframe.style.width != "0px") {
+      chrome.runtime.sendMessage(sender.id, "bkmks_close_panel");
+      bkmksMainIframe.style.setProperty("width", "0px", "important");
+    }
+  }
+});
+
+function time() {
+  var today = new Date();
+  console.log(today.getMinutes() + ":" + today.getSeconds());
+}
+
+function init() {
+  bkmksMainIframe = document.createElement("iframe");
+  bkmksMainIframe.id = "bkmks_iframe";
+  bkmksMainIframe.style.overflow = "auto";
+  bkmksMainIframe.style.height = "100vh";
+  bkmksMainIframe.style.setProperty("width", "0px", "important");
+  bkmksMainIframe.style.position = "fixed";
+  bkmksMainIframe.style.top = "0px";
+  bkmksMainIframe.style.right = "0px";
+  bkmksMainIframe.style.left = "0px";
+  bkmksMainIframe.style.zIndex = "9999999999";
+  bkmksMainIframe.style.border = 0;
+  bkmksMainIframe.style.setProperty("min_width", "0", "important");
+  setTimeout(function() {
+    bkmksMainIframe.src = chrome.runtime.getURL("bkmks_panel_inj.html");
+  }, 100);
+  document.body.appendChild(bkmksMainIframe);
+}
+
+function bkmksToggleInj(sender) {
+  if (bkmksMainIframe.style.width == "0px") {
+    chrome.runtime.sendMessage(sender.id, "bkmks_open_panel");
+    bkmksMainIframe.style.setProperty("width", "calc(100%)", "important");
+  } else {
+    chrome.runtime.sendMessage(sender.id, "bkmks_close_panel");
+    bkmksMainIframe.style.setProperty("width", "0px", "important");
+  }
+}
+
+init();
+
+
+/***/ })
+
+/******/ });

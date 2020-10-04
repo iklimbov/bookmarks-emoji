@@ -1026,15 +1026,6 @@ document
 
 document
   .getElementById("bkmks_rec_icon")
-  .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      changeOpenRec(ev);
-      this.blur();
-    }
-  });
-
-document
-  .getElementById("bkmks_rec_icon")
   .addEventListener("drop", function(event) {
     var distino = glb.wasteFld;
     if (!validateDragToEvent(distino)) {
@@ -1056,6 +1047,7 @@ document
   });
 
 function changeOpenRec(ev) {
+  clearSorts();
   currentFolderId = glb.wasteFld;
   openedFolderIds = [glb.wasteFld];
   chrome.bookmarks.getTree(function(bkmksTree) {
@@ -1071,15 +1063,6 @@ document
   .addEventListener("click", function(ev) {
     changeFont(ev);
     this.blur();
-  });
-
-document
-  .getElementById("bkmks_tt_icon")
-  .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      changeFont(ev);
-      this.blur();
-    }
   });
 
 function changeFont(ev) {
@@ -1098,20 +1081,11 @@ document
     this.blur();
   });
 
-document
-  .getElementById("bkmks_search_icon")
-  .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      ev.stopPropagation();
-      toggleSearch(ev);
-      this.blur();
-    }
-  });
-
 //----------------------------------------------------
 //search box event
 //----------------------------------------------------
 function toggleSearch(ev) {
+  clearSorts();
   var p = document.getElementById("bkmks_search_box");
   var t = document.getElementById("bkmk_search");
   var icon = document.getElementById("bkmks_search_icon");
@@ -1179,15 +1153,6 @@ document
     this.blur();
   });
 
-document
-  .getElementById("bkmks_wd_icon")
-  .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      darkModeSwitch(ev);
-      this.blur();
-    }
-  });
-
 function darkModeSwitch(ev) {
   darkMode = !darkMode;
   saveOptions();
@@ -1204,20 +1169,10 @@ document
     this.blur();
   });
 
-document
-  .getElementById("bkmks_sort_options_icon")
-  .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      toggleSortByName(ev);
-      this.blur();
-    }
-  });
-
 function toggleSortByName(ev) {
   clearFilter();
+  clearSorts();
   sortByName = !sortByName;
-  sortByVisits = false;
-  includeCounters = false;
   chrome.bookmarks.getTree(function(bkmksTree) {
     updateTree(bkmksTree, true);
   });
@@ -1236,10 +1191,8 @@ document
 document
   .getElementById("bkmks_sort_visits_options_icon")
   .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      sortByVisitsToggle(ev);
-      this.blur();
-    }
+    sortByVisitsToggle(ev);
+    this.blur();
   });
 
 function sortByVisitsToggle(ev) {
@@ -1265,10 +1218,8 @@ document
 document
   .getElementById("bkmks_archive_icon")
   .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      archiveBkmks(ev);
-      this.blur();
-    }
+    archiveBkmks(ev);
+    this.blur();
   });
 
 var dialog_ar = $("#bkmks_dialog_form_ar").dialog({
@@ -1356,6 +1307,7 @@ dialog_ar.find("form").on("submit", function(event) {
 });
 
 function archiveBkmks(ev) {
+  clearSorts();
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     dialog_ar.dialog("open");
   });
@@ -1374,16 +1326,15 @@ document
 document
   .getElementById("bkmks_tree_icon")
   .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      toggleTreeView(ev);
-      this.blur();
-    }
+    toggleTreeView(ev);
+    this.blur();
   });
 
 function toggleTreeView(ev) {
   clearFilter();
   singleFolderNav = !singleFolderNav;
   currentFolderId = singleFolderNav ? "0" : "";
+  clearSorts();
   openedFolderIds = [];
   chrome.bookmarks.getTree(function(bkmksTree) {
     updateTree(bkmksTree, true);
@@ -1400,18 +1351,10 @@ document
     this.blur();
   });
 
-document
-  .getElementById("bkmks_text_icon")
-  .addEventListener("keydown", function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      toggleTextView(ev);
-      this.blur();
-    }
-  });
-
 function toggleTextView(ev) {
   clearFilter();
   includeText = !includeText;
+  clearSorts();
   chrome.bookmarks.getTree(function(bkmksTree) {
     updateTree(bkmksTree);
     var br = document.getElementById("bkmk_resizable");
@@ -1620,12 +1563,6 @@ function creteBreadcrumbs(bkmksTree) {
 }
 
 function setupBreadcrumb(node, d1) {
-  d1.keydown(function(ev) {
-    if (ev.which == 13 || ev.keyCode == 13) {
-      wasPressed(ev);
-      this.blur();
-    }
-  });
   d1.click(function(ev) {
     wasPressed(ev);
     this.blur();
@@ -1754,7 +1691,7 @@ export async function updateTree(bkmksTree) {
       highlightSelectedOptions(bkmksTree);
       if (includeCounters) {
         var prms = new Promise((resolve, reject) => {
-          if (includeCounters) displayCounters(bkmksTree, resolve, reject);
+          displayCounters(xtree, resolve, reject);
         });
         prms.then(() => {
           closeFolders(prnts);
@@ -2016,12 +1953,6 @@ function getBkmkWIcon(node, largeIcons, currentFolder, openedFolderIds) {
     ctrField.attr("data-toggle", "tooltip");
     ctrField.attr("title", "Numer of times visited");
     d1.append(ctrField);
-    var dateField = $(
-      "<span class = 'bkmks_date' id='bkmks_date_" + node.id + "'/>"
-    );
-    dateField.attr("data-toggle", "tooltip");
-    dateField.attr("title", "Last Visit Date");
-    d1.append(dateField);
   }
   if (!includeText && filter.length == 0) {
     d1.addClass("bkmks_icons_only");
@@ -2140,7 +2071,7 @@ function sortTree(x, resolve, reject) {
     return resolve(true);
   }
   var r = getAllVisibleNodes(x)[1];
-  // console.log("visible nodes: ", r.length);
+
   if (!r) return resolve(true);
   if (r.length == 0) return resolve(true);
 
@@ -2293,6 +2224,7 @@ function getAllVisibleNodes(x, all_nodes) {
         }
       } else {
         var temp = Object.assign({}, node);
+
         all_nodes.push(temp);
       }
     }
@@ -2326,6 +2258,7 @@ function displayCounters(bkmksTree, resolve, reject) {
   if (filter.length > 0) {
     return resolve(true);
   }
+
   var x = getAllVisibleNodes(bkmksTree)[1];
   let prms = new Promise((resolve, reject) => {
     getHistory(x, resolve, reject);
@@ -3048,9 +2981,18 @@ function getFoldersToOpen() {
 document.addEventListener("dragover", function(event) {
   event.preventDefault();
 });
-document.addEventListener("drop", function(ev) {
-  event.preventDefault();
-});
+// document.addEventListener("drop", function(ev) {
+//   event.preventDefault();
+// });
+
+//-------------------------------------------------------
+// remove all sorts
+//-------------------------------------------------------
+function clearSorts() {
+  sortByVisits = false;
+  sortByName = false;
+  includeCounters = false;
+}
 
 //------------------------------------------------------
 // light or dark color schema - step 1

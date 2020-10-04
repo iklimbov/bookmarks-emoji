@@ -138,8 +138,6 @@ div {
 }
 
 .bmks_icons_w_text .bkmks_icon {
-  position: relative;
-  bottom: 0;
   margin: auto;
 }
 
@@ -451,14 +449,7 @@ input.empty {
 }
 .bkmks_counter {
   padding: 0 0 0 0.1em;
-  margin-left: 5px;
-  display: inline-block;
-  color: #a52a2a;
-  font-weight: bolder;
-  vertical-align: super;
-  font-size: 60%;
-}
-.bkmks_date {
+  margin-right: 5px;
   display: inline-block;
   color: #a52a2a;
   font-weight: bolder;

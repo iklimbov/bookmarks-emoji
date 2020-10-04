@@ -8,6 +8,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   if (msg == "bkmks_toggle") {
     bkmksToggleInj(sender);
   }
+  if (msg == "bkmks_close_all") {
+    if (bkmksMainIframe.style.width != "0px") {
+      chrome.runtime.sendMessage(sender.id, "bkmks_close_panel");
+      bkmksMainIframe.style.setProperty("width", "0px", "important");
+    }
+  }
 });
 
 function time() {

@@ -1,13 +1,27 @@
 import * as popW from "./bkmks_panel_popup.js";
 import * as slider from "./bkmks_enj_slider.js";
 import * as glb from "./bkmks_panel_common.js";
+
+var opened = false;
+
 function time() {
   var today = new Date();
   console.log(today.getMinutes() + ":" + today.getSeconds());
 }
 
+chrome.tabs.onActivated.addListener(function(tabId) {
+  if (!opened) return;
+  chrome.tabs.getCurrent(function(tab1) {
+    if (tab1.id != tabId) {
+      opened = false;
+      chrome.tabs.sendMessage(tab1.id, "bkmks_close_all");
+    }
+  });
+});
+
 chrome.runtime.onMessage.addListener(function(msg, sender) {
   if (msg == "bkmks_open_panel") {
+    opened = true;
     chrome.storage.local.get(
       {
         includeText: true,
@@ -44,6 +58,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender) {
       }
     );
   } else if (msg == "bkmks_close_panel") {
+    opened = false;
     popW.clearFilter();
     glb.clearMultiSelect();
     document.getElementById("bkmks_loader").hidden = false;
